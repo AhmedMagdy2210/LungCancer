@@ -32,9 +32,10 @@ use Illuminate\Support\Facades\Artisan;
 Route::post('auth/login', [AuthController::class, 'login']);
 Route::post('auth/register', [AuthController::class, 'register']);
 Route::post('auth/logout', [AuthController::class, 'logout']);
-Route::get('user', [AuthController::class, 'user']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [AuthController::class, 'user']);
     //routes for both admin and moderator
     Route::prefix('controll')->middleware('role:admin|moderator')->group(function () {
         //routes for controll doctors

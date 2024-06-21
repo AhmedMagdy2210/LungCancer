@@ -72,8 +72,8 @@ class AuthController extends Controller {
         return response()->json(['message' => 'Successfully logged out'], 200);
     }
     public function user(Request $request) {
-        $user = $request->user();
-        $user->load('roles'); 
+        $user = $request->user()->load('roles');
+        dd($user);
         return response()->json($user);
     }
 }

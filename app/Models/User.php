@@ -4,16 +4,17 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Events\MedicineReminderEvent;
 use App\Models\Chat;
 use App\Models\Doctor;
-use App\Notifications\MedicineReminderNotification;
-use App\Notifications\MessageSent;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\MessageSent;
+use Spatie\Permission\Models\Role;
+use App\Events\MedicineReminderEvent;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Notifications\MedicineReminderNotification;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable {
@@ -34,6 +35,11 @@ class User extends Authenticatable {
         'born_date',
         'national_id'
     ];
+
+    public function roles() {
+        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
+    }
+
 
     public function chats(): HasMany {
         return $this->hasMany(Chat::class, 'created_by');
