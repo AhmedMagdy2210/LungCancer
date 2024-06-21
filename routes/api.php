@@ -35,7 +35,7 @@ Route::post('auth/logout', [AuthController::class, 'logout']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('user', [AuthController::class, 'user']);
+    Route::get('auth/user', [AuthController::class, 'user']);
     //routes for both admin and moderator
     Route::prefix('controll')->middleware('role:admin|moderator')->group(function () {
         //routes for controll doctors
