@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller {
 
-    
+
     public function update(Request $request, $id) {
         $user = User::findOrFail($id);
         $stringDate = $request->born_date;
@@ -38,7 +38,7 @@ class ProfileController extends Controller {
 
     public function show($id) {
 
-        $user = User::with('cancerResults', 'roles')->findOrFail($id);
+        $user = User::with('roles')->findOrFail($id);
         if ($user->id === Auth::id()) {
             return response()->json([
                 'patient' => [
