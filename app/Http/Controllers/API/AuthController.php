@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,7 +33,9 @@ class AuthController extends Controller {
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        $user->assignRole('patient');
+        $role = Role::where('name', 'patient')->first();
+        // Attach the role with the model_type
+        $user->roles()->attach($role->id, ['model_type' => User::class]);
         return response()->json([
             'status' => true,
             'message' => 'User created successfully',
