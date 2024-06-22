@@ -72,12 +72,22 @@ class AuthController extends Controller {
         return response()->json(['message' => 'Successfully logged out'], 200);
     }
     public function user(Request $request) {
-        $user = $request->user()->load('roles');
-        dd($user);
-        return response()->json([
-            'status' => true,
-            'message' => 'User data',
-            'data' => $user,
-        ], 200);
+        if (Auth::check()) {
+            // Retrieve the authenticated user
+            $user = Auth::user();
+            // Optionally load relationships
+            $user->load('roles');
+
+            return response()->json([
+                'status' => true,
+                'message' => 'User data',
+                'data' => $user,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not authenticated',
+            ], 401);
+        }
     }
 }
