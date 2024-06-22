@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
 
@@ -11,7 +12,9 @@ class AdminController extends Controller {
     //moderators control
     public function assginModerator(User $user) {
         $user->roles()->detach();
-        $user->assignRole('moderator');
+        $role = Role::where('name', 'moderator')->first();
+        // Attach the role with the model_type
+        $user->roles()->attach($role->id, ['model_type' => User::class]);
         return response()->json(['status' => 200, 'message' => 'User is now moderator']);
     }
 
