@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Control;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
 
@@ -12,11 +13,11 @@ class DoctorController extends Controller {
 
     public function assginDoctor(User $user) {
         $user->roles()->detach();
-        $user->assignRole('doctor');
+        $role = Role::where('name', 'doctor')->first();
+        // Attach the role with the model_type
+        $user->roles()->attach($role->id, ['model_type' => User::class]);
         return response()->json(['status' => 200, 'message' => 'User is now doctor']);
     }
-
-
 
     public function getAllDoctors() {
         $usersWithDoctorRole = User::role('doctor')->get();
