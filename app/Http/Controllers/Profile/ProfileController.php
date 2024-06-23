@@ -15,7 +15,7 @@ class ProfileController extends Controller {
     public function update(Request $request, $id) {
         $user = User::findOrFail($id);
         $stringDate = $request->born_date;
-        $date = Carbon::createFromFormat('d-m-Y', $stringDate);
+        $date = Carbon::createFromFormat('Y-m-d', $stringDate);
         $request->validate([
             'name' => 'string',
             'email' => 'string',
@@ -37,7 +37,6 @@ class ProfileController extends Controller {
     }
 
     public function show($id) {
-
         $user = User::with('roles')->findOrFail($id);
         if ($user->id === Auth::id()) {
             return response()->json([

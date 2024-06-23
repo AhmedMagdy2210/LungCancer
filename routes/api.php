@@ -80,6 +80,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('medicines/{medicine}', [MedicineController::class, 'show']);
         Route::apiResource('chat', ChatController::class)->only(['index', 'store', 'show']);
         Route::apiResource('chat_message', ChatMessageController::class)->only(['index', 'store']);
+        Route::get('/doctors', [DoctorController::class, 'getAllDoctors']);
     });
     Route::prefix('search')->group(function () {
         Route::get('/user', [SearchController::class, 'searchUser']);
